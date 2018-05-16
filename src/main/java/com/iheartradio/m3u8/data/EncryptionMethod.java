@@ -6,7 +6,8 @@ import java.util.Map;
 public enum EncryptionMethod {
     NONE("NONE"),
     AES("AES-128"),
-    SAMPLE_AES("SAMPLE-AES");
+    SAMPLE_AES("SAMPLE-AES"),
+    SAMPLE_AES_CENC("SAMPLE-AES-CENC");
 
     private static final Map<String, EncryptionMethod> sMap = new HashMap<String, EncryptionMethod>();
 
