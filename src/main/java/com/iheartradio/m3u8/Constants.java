@@ -78,6 +78,7 @@ final class Constants {
     public static final String EXT_X_KEY_TAG = "EXT-X-KEY";
     public static final String METHOD = "METHOD";
     public static final String IV = "IV";
+    public static final String KEY_ID = "KEYID";
     public static final String KEY_FORMAT = "KEYFORMAT";
     public static final String KEY_FORMAT_VERSIONS = "KEYFORMATVERSIONS";
     public static final String EXT_X_MAP = "EXT-X-MAP";
@@ -113,7 +114,8 @@ final class Constants {
     public static final char UNICODE_BOM = '\uFEFF';
     public static final int MAX_COMPATIBILITY_VERSION = 5;
     public static final int IV_SIZE = 16;
-    //Against the spec but used by Adobe
+    public static final int KEY_ID_SIZE = 16;
+        //Against the spec but used by Adobe
     public static final int IV_SIZE_ALTERNATIVE = 32;
     public static final String DEFAULT_KEY_FORMAT = "identity";
     public static final String NO_CLOSED_CAPTIONS = "NONE";

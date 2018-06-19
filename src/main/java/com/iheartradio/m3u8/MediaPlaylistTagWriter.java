@@ -283,6 +283,18 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
                 }
             });
 
+            HANDLERS.put(Constants.KEY_ID, new AttributeWriter<EncryptionData>() {
+                @Override
+                public boolean containsAttribute(EncryptionData attribute) {
+                    return attribute.hasKeyId();
+                }
+
+                @Override
+                public String write(EncryptionData encryptionData) {
+                    return WriteUtil.writeHexadecimal(encryptionData.getKeyId());
+                }
+            });
+
             HANDLERS.put(Constants.KEY_FORMAT, new AttributeWriter<EncryptionData>() {
                 @Override
                 public boolean containsAttribute(EncryptionData attributes) {

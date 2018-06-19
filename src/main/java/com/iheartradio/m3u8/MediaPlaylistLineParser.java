@@ -365,6 +365,19 @@ class MediaPlaylistLineParser implements LineParser {
                     builder.withKeyFormatVersions(versions);
                 }
             });
+
+            HANDLERS.put(Constants.KEY_ID, new AttributeParser<EncryptionData.Builder>() {
+                @Override
+                public void parse(Attribute attribute, Builder builder, ParseState state) throws ParseException {
+                    final List<Byte> keyID = ParseUtil.parseHexadecimal(attribute.value, getTag());
+
+                    if (keyID.size() != Constants.KEY_ID_SIZE) {
+                        throw ParseException.create(ParseExceptionType.INVALID_KEY_ID_SIZE, getTag(), attribute.toString());
+                    }
+
+                    builder.withKeyId(keyID);
+                }
+            });
         }
 
         @Override

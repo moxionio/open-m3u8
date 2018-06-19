@@ -14,6 +14,7 @@ public enum ParseExceptionType {
     INVALID_ENCRYPTION_METHOD("invalid encryption method"),
     INVALID_HEXADECIMAL_STRING("a hexadecimal string was not properly formatted"),
     INVALID_IV_SIZE("the initialization vector is the wrong size"),
+    INVALID_KEY_ID_SIZE("the key ID is the wrong size"),
     INVALID_KEY_FORMAT_VERSIONS("invalid KEYFORMATVERSIONS"),
     INVALID_MEDIA_IN_STREAM_ID("invalid media INSTREAM-ID"),
     INVALID_MEDIA_TYPE("invalid media TYPE"),

@@ -10,13 +10,15 @@ public class EncryptionData {
     private final List<Byte> mInitializationVector;
     private final String mKeyFormat;
     private final List<Integer> mKeyFormatVersions;
+    private final List<Byte> mKeyId;
 
-    private EncryptionData(EncryptionMethod method, String uri, List<Byte> initializationVector, String keyFormat, List<Integer> keyFormats) {
+    private EncryptionData(EncryptionMethod method, String uri, List<Byte> initializationVector, String keyFormat, List<Integer> keyFormats, List<Byte> keyId) {
         mMethod = method;
         mUri = uri;
         mInitializationVector = initializationVector == null ? null : Collections.unmodifiableList(initializationVector);
         mKeyFormat = keyFormat;
         mKeyFormatVersions = keyFormats == null ? null : Collections.unmodifiableList(keyFormats);
+        mKeyId = keyId;
     }
 
     public EncryptionMethod getMethod() {
@@ -55,13 +57,21 @@ public class EncryptionData {
         return mKeyFormatVersions;
     }
 
+    public boolean hasKeyId() {
+        return mKeyId != null;
+    }
+
+    public List<Byte> getKeyId() {
+        return mKeyId;
+    }
+
     public Builder buildUpon() {
-        return new Builder(mMethod, mUri, mInitializationVector, mKeyFormat, mKeyFormatVersions);
+        return new Builder(mMethod, mUri, mInitializationVector, mKeyFormat, mKeyFormatVersions, mKeyId);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(mInitializationVector, mKeyFormat, mKeyFormatVersions, mMethod, mUri);
+        return Objects.hash(mInitializationVector, mKeyFormat, mKeyFormatVersions, mMethod, mUri, mKeyId);
     }
 
     @Override
@@ -75,6 +85,7 @@ public class EncryptionData {
         return Objects.equals(this.mInitializationVector, other.mInitializationVector) &&
                 Objects.equals(this.mKeyFormat, other.mKeyFormat) &&
                 Objects.equals(this.mKeyFormatVersions, other.mKeyFormatVersions) &&
+                Objects.equals(this.mKeyId, other.mKeyId) &&
                 Objects.equals(this.mMethod, other.mMethod) &&
                 Objects.equals(this.mUri, other.mUri);
     }
@@ -85,16 +96,18 @@ public class EncryptionData {
         private List<Byte> mInitializationVector;
         private String mKeyFormat;
         private List<Integer> mKeyFormatVersions;
+        private List<Byte> mKeyId;
 
         public Builder() {
         }
 
-        private Builder(EncryptionMethod method, String uri, List<Byte> initializationVector, String keyFormat, List<Integer> keyFormatVersions) {
+        private Builder(EncryptionMethod method, String uri, List<Byte> initializationVector, String keyFormat, List<Integer> keyFormatVersions, List<Byte> keyId) {
             mMethod = method;
             mUri = uri;
             mInitializationVector = initializationVector;
             mKeyFormat = keyFormat;
             mKeyFormatVersions = keyFormatVersions;
+            mKeyId = keyId;
         }
 
         public Builder withMethod(EncryptionMethod method) {
@@ -122,8 +135,13 @@ public class EncryptionData {
             return this;
         }
 
+        public Builder withKeyId(List<Byte> keyId) {
+            mKeyId = keyId;
+            return this;
+        }
+
         public EncryptionData build() {
-            return new EncryptionData(mMethod, mUri, mInitializationVector, mKeyFormat, mKeyFormatVersions);
+            return new EncryptionData(mMethod, mUri, mInitializationVector, mKeyFormat, mKeyFormatVersions,mKeyId);
         }
     }
 }
