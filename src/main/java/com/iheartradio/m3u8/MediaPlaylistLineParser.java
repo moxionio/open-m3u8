@@ -488,7 +488,7 @@ class MediaPlaylistLineParser implements LineParser {
 
         @Override
         public boolean hasData() {
-            return true;
+            return false;
         }
 
         @Override
