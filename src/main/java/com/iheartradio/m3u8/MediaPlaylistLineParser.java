@@ -476,4 +476,26 @@ class MediaPlaylistLineParser implements LineParser {
             state.getMedia().byteRange = ParseUtil.matchByteRange(matcher);
         }
     };
+
+
+    static final IExtTagParser EXT_X_INDEPENDENT_SEGMENTS = new IExtTagParser() {
+        private final LineParser lineParser = new MediaPlaylistLineParser(this);
+
+        @Override
+        public String getTag() {
+            return Constants.EXT_X_INDEPENDENT_SEGMENTS_TAG;
+        }
+
+        @Override
+        public boolean hasData() {
+            return true;
+        }
+
+        @Override
+        public void parse(String line, ParseState state) throws ParseException {
+            lineParser.parse(line, state);
+
+            // deprecated
+        }
+    };
 }
