@@ -183,6 +183,26 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
         };
     };
 
+    // independent segment tags
+    static final IExtTagWriter EXT_X_INDEPENDENT_SEGMENTS = new MediaPlaylistTagWriter() {
+        @Override
+        public String getTag() {
+            return Constants.EXT_X_INDEPENDENT_SEGMENTS_TAG;
+        }
+
+        @Override
+        boolean hasData() {
+            return false;
+        }
+
+        @Override
+        public void doWrite(TagWriter tagWriter,Playlist playlist, MediaPlaylist mediaPlaylist) throws IOException {
+            if (!mediaPlaylist.isOngoing()) {
+                tagWriter.writeTag(getTag());
+            }
+        }
+    };
+
     // media segment tags
 
     static final SectionWriter MEDIA_SEGMENTS = new SectionWriter() {

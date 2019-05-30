@@ -27,7 +27,8 @@ class ExtendedM3uWriter extends Writer {
                 MasterPlaylistTagWriter.EXT_X_STREAM_INF,
                 MasterPlaylistTagWriter.EXT_X_I_FRAME_STREAM_INF,
                 MediaPlaylistTagWriter.MEDIA_SEGMENTS,
-                MediaPlaylistTagWriter.EXT_X_ENDLIST
+                MediaPlaylistTagWriter.EXT_X_ENDLIST,
+                MediaPlaylistTagWriter.EXT_X_INDEPENDENT_SEGMENTS
         );
     }
 
