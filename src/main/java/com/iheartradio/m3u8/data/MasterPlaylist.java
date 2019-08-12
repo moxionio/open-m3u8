@@ -9,13 +9,15 @@ public class MasterPlaylist {
     private final List<MediaData> mMediaData;
     private final List<String> mUnknownTags;
     private final StartData mStartData;
+    private final EncryptionData mEncryptionData;
 
-    private MasterPlaylist(List<PlaylistData> playlists, List<IFrameStreamInfo> iFramePlaylists, List<MediaData> mediaData, List<String> unknownTags, StartData startData) {
+    private MasterPlaylist(List<PlaylistData> playlists, List<IFrameStreamInfo> iFramePlaylists, List<MediaData> mediaData, List<String> unknownTags, StartData startData, EncryptionData encryptionData) {
         mPlaylists = DataUtil.emptyOrUnmodifiable(playlists);
         mIFramePlaylists = DataUtil.emptyOrUnmodifiable(iFramePlaylists);
         mMediaData = DataUtil.emptyOrUnmodifiable(mediaData);
         mUnknownTags = DataUtil.emptyOrUnmodifiable(unknownTags);
         mStartData = startData;
+        mEncryptionData = encryptionData;
     }
 
     public List<PlaylistData> getPlaylists() {
@@ -46,13 +48,22 @@ public class MasterPlaylist {
         return mStartData;
     }
 
+    public EncryptionData getEncryptionData() {
+        return mEncryptionData;
+    }
+
+    public boolean hasEncryptionData() {
+        return mEncryptionData != null;
+    }
+
+
     public Builder buildUpon() {
-        return new Builder(mPlaylists, mIFramePlaylists, mMediaData, mUnknownTags);
+        return new Builder(mPlaylists, mIFramePlaylists, mMediaData, mUnknownTags, mEncryptionData);
     }
     
     @Override
     public int hashCode() {
-        return Objects.hash(mMediaData, mPlaylists, mIFramePlaylists, mUnknownTags, mStartData);
+        return Objects.hash(mMediaData, mPlaylists, mIFramePlaylists, mUnknownTags, mStartData, mEncryptionData);
     }
 
     @Override
@@ -67,7 +78,8 @@ public class MasterPlaylist {
                Objects.equals(mPlaylists, other.mPlaylists) &&
                Objects.equals(mIFramePlaylists, other.mIFramePlaylists) &&
                Objects.equals(mUnknownTags, other.mUnknownTags) &&
-               Objects.equals(mStartData, other.mStartData);
+               Objects.equals(mStartData, other.mStartData) &&
+               Objects.equals(mEncryptionData, other.mEncryptionData) ;
     }
 
     @Override
@@ -79,6 +91,7 @@ public class MasterPlaylist {
                 .append(" mMediaData=").append(mMediaData.toString())
                 .append(" mUnknownTags=").append(mUnknownTags.toString())
                 .append(" mStartData=").append(mStartData.toString())
+                .append(" mEncryptionData=").append(mEncryptionData.toString())
                 .append(")")
                 .toString();
     }
@@ -89,15 +102,17 @@ public class MasterPlaylist {
         private List<MediaData> mMediaData;
         private List<String> mUnknownTags;
         private StartData mStartData;
+        private EncryptionData mEncryptionData;
 
         public Builder() {
         }
 
-        private Builder(List<PlaylistData> playlists, List<IFrameStreamInfo> iFramePlaylists, List<MediaData> mediaData, List<String> unknownTags) {
+        private Builder(List<PlaylistData> playlists, List<IFrameStreamInfo> iFramePlaylists, List<MediaData> mediaData, List<String> unknownTags, EncryptionData encryptionData) {
             mPlaylists = playlists;
             mIFramePlaylists = iFramePlaylists;
             mMediaData = mediaData;
             mUnknownTags = unknownTags;
+            mEncryptionData = encryptionData;
         }
 
         private Builder(List<PlaylistData> playlists, List<MediaData> mediaData) {
@@ -130,8 +145,15 @@ public class MasterPlaylist {
             return this;
         }
 
+
+        public Builder withEncryptionData(EncryptionData encryptionData) {
+            mEncryptionData = encryptionData;
+            return this;
+        }
+
+
         public MasterPlaylist build() {
-            return new MasterPlaylist(mPlaylists, mIFramePlaylists, mMediaData, mUnknownTags, mStartData);
+            return new MasterPlaylist(mPlaylists, mIFramePlaylists, mMediaData, mUnknownTags, mStartData, mEncryptionData);
         }
     }
 }

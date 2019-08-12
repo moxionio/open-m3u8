@@ -1,9 +1,6 @@
 package com.iheartradio.m3u8;
 
-import com.iheartradio.m3u8.data.MediaData;
-import com.iheartradio.m3u8.data.MediaType;
-import com.iheartradio.m3u8.data.Resolution;
-import com.iheartradio.m3u8.data.StreamInfo;
+import com.iheartradio.m3u8.data.*;
 
 import org.junit.Test;
 

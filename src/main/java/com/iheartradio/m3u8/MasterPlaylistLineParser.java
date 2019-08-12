@@ -2,9 +2,7 @@ package com.iheartradio.m3u8;
 
 import com.iheartradio.m3u8.data.*;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 class MasterPlaylistLineParser implements LineParser {
     private final IExtTagParser mTagParser;
@@ -195,6 +193,114 @@ class MasterPlaylistLineParser implements LineParser {
             state.getMaster().clearMediaDataState();
             ParseUtil.parseAttributes(line, builder, state, HANDLERS, getTag());
             state.getMaster().mediaData.add(builder.build());
+        }
+    };
+
+    static final IExtTagParser EXT_X_SESSION_KEY = new IExtTagParser() {
+        private final LineParser mLineParser = new MasterPlaylistLineParser(this);
+        private final Map<String, AttributeParser<EncryptionData.Builder>> HANDLERS = new HashMap<>();
+
+        {
+            HANDLERS.put(Constants.METHOD, new AttributeParser<EncryptionData.Builder>() {
+                @Override
+                public void parse(Attribute attribute, EncryptionData.Builder builder, ParseState state) throws ParseException {
+                    final EncryptionMethod method = EncryptionMethod.fromValue(attribute.value);
+
+                    if (method == null) {
+                        throw ParseException.create(ParseExceptionType.INVALID_ENCRYPTION_METHOD, getTag(), attribute.toString());
+                    } else {
+                        builder.withMethod(method);
+                    }
+                }
+            });
+
+            HANDLERS.put(Constants.URI, new AttributeParser<EncryptionData.Builder>() {
+                @Override
+                public void parse(Attribute attribute, EncryptionData.Builder builder, ParseState state) throws ParseException {
+                    builder.withUri(ParseUtil.decodeUri(ParseUtil.parseQuotedString(attribute.value, getTag()), state.encoding));
+                }
+            });
+
+            HANDLERS.put(Constants.IV, new AttributeParser<EncryptionData.Builder>() {
+                @Override
+                public void parse(Attribute attribute, EncryptionData.Builder builder, ParseState state) throws ParseException {
+                    final List<Byte> initializationVector = ParseUtil.parseHexadecimal(attribute.value, getTag());
+
+                    if ((initializationVector.size() != Constants.IV_SIZE) &&
+                            (initializationVector.size() != Constants.IV_SIZE_ALTERNATIVE)) {
+                        throw ParseException.create(ParseExceptionType.INVALID_IV_SIZE, getTag(), attribute.toString());
+                    }
+
+                    builder.withInitializationVector(initializationVector);
+                }
+            });
+
+            HANDLERS.put(Constants.KEY_FORMAT, new AttributeParser<EncryptionData.Builder>() {
+                @Override
+                public void parse(Attribute attribute, EncryptionData.Builder builder, ParseState state) throws ParseException {
+                    builder.withKeyFormat(ParseUtil.parseQuotedString(attribute.value, getTag()));
+                }
+            });
+
+            HANDLERS.put(Constants.KEY_FORMAT_VERSIONS, new AttributeParser<EncryptionData.Builder>() {
+                @Override
+                public void parse(Attribute attribute, EncryptionData.Builder builder, ParseState state) throws ParseException {
+                    final String[] versionStrings = ParseUtil.parseQuotedString(attribute.value, getTag()).split(Constants.LIST_SEPARATOR);
+                    final List<Integer> versions = new ArrayList<>();
+
+                    for (String version : versionStrings) {
+                        try {
+                            versions.add(Integer.parseInt(version));
+                        } catch (NumberFormatException exception) {
+                            throw ParseException.create(ParseExceptionType.INVALID_KEY_FORMAT_VERSIONS, getTag(), attribute.toString());
+                        }
+                    }
+
+                    builder.withKeyFormatVersions(versions);
+                }
+            });
+
+            HANDLERS.put(Constants.KEY_ID, new AttributeParser<EncryptionData.Builder>() {
+                @Override
+                public void parse(Attribute attribute, EncryptionData.Builder builder, ParseState state) throws ParseException {
+                    final List<Byte> keyID = ParseUtil.parseHexadecimal(attribute.value, getTag());
+
+                    if (keyID.size() != Constants.KEY_ID_SIZE) {
+                        throw ParseException.create(ParseExceptionType.INVALID_KEY_ID_SIZE, getTag(), attribute.toString());
+                    }
+
+                    builder.withKeyId(keyID);
+                }
+            });
+        }
+
+        @Override
+        public String getTag() {
+            return Constants.EXT_X_SESSION_KEY_TAG;
+        }
+
+        @Override
+        public boolean hasData() {
+            return true;
+        }
+
+        @Override
+        public void parse(String line, ParseState state) throws ParseException {
+            mLineParser.parse(line, state);
+
+            final EncryptionData.Builder builder = new EncryptionData.Builder()
+                    .withKeyFormat(Constants.DEFAULT_KEY_FORMAT)
+                    .withKeyFormatVersions(Constants.DEFAULT_KEY_FORMAT_VERSIONS);
+
+            ParseUtil.parseAttributes(line, builder, state, HANDLERS, getTag());
+
+            final EncryptionData encryptionData = builder.build();
+
+            if (encryptionData.getMethod() != EncryptionMethod.NONE && encryptionData.getUri() == null) {
+                throw ParseException.create(ParseExceptionType.MISSING_ENCRYPTION_URI, getTag(), line);
+            }
+
+            state.getMaster().encryptionData = encryptionData;
         }
     };
 

@@ -3,12 +3,7 @@ package com.iheartradio.m3u8;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.iheartradio.m3u8.data.IFrameStreamInfo;
-import com.iheartradio.m3u8.data.MasterPlaylist;
-import com.iheartradio.m3u8.data.MediaData;
-import com.iheartradio.m3u8.data.PlaylistData;
-import com.iheartradio.m3u8.data.StartData;
-import com.iheartradio.m3u8.data.StreamInfo;
+import com.iheartradio.m3u8.data.*;
 
 class MasterParseState implements PlaylistParseState<MasterPlaylist> {
     private List<String> mUnknownTags;
@@ -19,6 +14,8 @@ class MasterParseState implements PlaylistParseState<MasterPlaylist> {
     public final List<MediaData> mediaData = new ArrayList<>();
 
     public StreamInfo streamInfo;
+
+    public EncryptionData encryptionData;
 
     public boolean isDefault;
     public boolean isNotAutoSelect;
@@ -48,6 +45,7 @@ class MasterParseState implements PlaylistParseState<MasterPlaylist> {
                 .withMediaData(mediaData)
                 .withUnknownTags(mUnknownTags)
                 .withStartData(mStartData)
+                .withEncryptionData(encryptionData)
                 .build();
     }
 }
