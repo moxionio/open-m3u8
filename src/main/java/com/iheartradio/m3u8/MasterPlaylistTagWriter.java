@@ -457,7 +457,8 @@ abstract class MasterPlaylistTagWriter extends ExtTagWriter {
 
         @Override
         public void doWrite(TagWriter tagWriter, Playlist playlist, MasterPlaylist masterPlaylist) throws IOException, ParseException {
-            writeAttributes(tagWriter, masterPlaylist.getEncryptionData(), HANDLERS);
+            if (masterPlaylist.getEncryptionData() != null)
+                writeAttributes(tagWriter, masterPlaylist.getEncryptionData(), HANDLERS);
         }
     };
 
