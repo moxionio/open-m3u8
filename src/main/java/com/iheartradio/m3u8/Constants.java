@@ -50,6 +50,7 @@ final class Constants {
     public static final String RESOLUTION = "RESOLUTION";
     public static final String FRAME_RATE = "FRAME-RATE";
     public static final String VIDEO = "VIDEO";
+    public static final String VIDEO_RANGE = "VIDEO-RANGE";
     public static final String PROGRAM_ID = "PROGRAM-ID";
 
     public static final String AUDIO = "AUDIO";

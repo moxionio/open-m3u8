@@ -15,6 +15,7 @@ public class StreamInfo implements IStreamInfo {
     private final String mVideo;
     private final String mSubtitles;
     private final String mClosedCaptions;
+    private final String mVideoRange;
 
     private StreamInfo(
             int bandwidth,
@@ -25,7 +26,8 @@ public class StreamInfo implements IStreamInfo {
             String audio,
             String video,
             String subtitles,
-            String closedCaptions) {
+            String closedCaptions,
+            String videoRange) {
         mBandwidth = bandwidth;
         mAverageBandwidth = averageBandwidth;
         mCodecs = codecs;
@@ -35,6 +37,7 @@ public class StreamInfo implements IStreamInfo {
         mVideo = video;
         mSubtitles = subtitles;
         mClosedCaptions = closedCaptions;
+        mVideoRange = videoRange;
     }
 
     @Override
@@ -100,6 +103,16 @@ public class StreamInfo implements IStreamInfo {
         return mVideo;
     }
 
+    @Override
+    public boolean hasVideoRange() {
+        return mVideoRange != null;
+    }
+
+    @Override
+    public String getVideoRange() {
+        return mVideoRange;
+    }
+
     public boolean hasSubtitles() {
         return mSubtitles != null;
     }
@@ -126,7 +139,8 @@ public class StreamInfo implements IStreamInfo {
                 mAudio,
                 mVideo,
                 mSubtitles,
-                mClosedCaptions);
+                mClosedCaptions,
+                mVideoRange);
     }
 
     @Override
@@ -140,7 +154,8 @@ public class StreamInfo implements IStreamInfo {
                 mAudio,
                 mVideo,
                 mSubtitles,
-                mClosedCaptions);
+                mClosedCaptions,
+                mVideoRange);
     }
 
     @Override
@@ -159,7 +174,8 @@ public class StreamInfo implements IStreamInfo {
                Objects.equals(mAudio, other.mAudio) &&
                Objects.equals(mVideo, other.mVideo) &&
                Objects.equals(mSubtitles, other.mSubtitles) &&
-               Objects.equals(mClosedCaptions, other.mClosedCaptions);
+               Objects.equals(mClosedCaptions, other.mClosedCaptions) &&
+               Objects.equals(mVideoRange, other.mVideoRange)  ;
     }
 
     public static class Builder implements StreamInfoBuilder {
@@ -172,6 +188,7 @@ public class StreamInfo implements IStreamInfo {
         private String mVideo;
         private String mSubtitles;
         private String mClosedCaptions;
+        private String mVideoRange;
 
         public Builder() {
         }
@@ -185,7 +202,8 @@ public class StreamInfo implements IStreamInfo {
                 String audio,
                 String video,
                 String subtitles,
-                String closedCaptions) {
+                String closedCaptions,
+                String mVideoRange) {
             mBandwidth = bandwidth;
             mAverageBandwidth = averageBandwidth;
             mCodecs = codecs;
@@ -195,6 +213,7 @@ public class StreamInfo implements IStreamInfo {
             mVideo = video;
             mSubtitles = subtitles;
             mClosedCaptions = closedCaptions;
+            mVideoRange = mVideoRange;
         }
 
         @Override
@@ -238,6 +257,12 @@ public class StreamInfo implements IStreamInfo {
             return this;
         }
 
+        @Override
+        public Builder withVideoRange(String videoRange) {
+            mVideoRange = videoRange;
+            return this;
+        }
+
         public Builder withSubtitles(String subtitles) {
             mSubtitles = subtitles;
             return this;
@@ -258,7 +283,8 @@ public class StreamInfo implements IStreamInfo {
                     mAudio,
                     mVideo,
                     mSubtitles,
-                    mClosedCaptions);
+                    mClosedCaptions,
+                    mVideoRange);
         }
     }
 }

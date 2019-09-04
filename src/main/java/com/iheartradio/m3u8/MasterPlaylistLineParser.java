@@ -444,6 +444,13 @@ class MasterPlaylistLineParser implements LineParser {
             }
         });
 
+        handlers.put(Constants.VIDEO_RANGE, new AttributeParser<T>() {
+            @Override
+            public void parse(Attribute attribute, T builder, ParseState state) throws ParseException {
+                builder.withVideoRange(ParseUtil.parseQuotedString(attribute.value, tag));
+            }
+        });
+
         return handlers;
     }
 }

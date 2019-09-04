@@ -14,4 +14,7 @@ public interface StreamInfoBuilder {
     public StreamInfoBuilder withFrameRate(float frameRate);
 
     public StreamInfoBuilder withVideo(String video);
+
+    public StreamInfoBuilder withVideoRange(String videoRange);
+
 }

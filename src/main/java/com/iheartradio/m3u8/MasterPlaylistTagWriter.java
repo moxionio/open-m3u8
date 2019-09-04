@@ -258,6 +258,18 @@ abstract class MasterPlaylistTagWriter extends ExtTagWriter {
                 }
             });
 
+            HANDLERS.put(Constants.VIDEO_RANGE, new AttributeWriter<T>() {
+                @Override
+                public boolean containsAttribute(T streamInfo) {
+                    return streamInfo.hasVideoRange();
+                }
+
+                @Override
+                public String write(T streamInfo) throws ParseException {
+                    return WriteUtil.writeQuotedString(streamInfo.getVideoRange(), getTag());
+                }
+            });
+
             HANDLERS.put(Constants.PROGRAM_ID, new AttributeWriter<T>() {
                 @Override
                 public boolean containsAttribute(T streamInfo) {

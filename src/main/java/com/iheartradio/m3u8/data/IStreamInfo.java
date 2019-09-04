@@ -24,4 +24,8 @@ public interface IStreamInfo {
     boolean hasVideo();
 
     String getVideo();
+
+    boolean hasVideoRange();
+
+    String getVideoRange();
 }
