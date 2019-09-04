@@ -15,6 +15,6 @@ public interface StreamInfoBuilder {
 
     public StreamInfoBuilder withVideo(String video);
 
-    public StreamInfoBuilder withVideoRange(String videoRange);
+    public StreamInfoBuilder withVideoRange(VideoRangeType videoRange);
 
 }
