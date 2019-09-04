@@ -23,6 +23,7 @@ class ExtendedM3uWriter extends Writer {
                 MediaPlaylistTagWriter.EXT_X_START,
                 MediaPlaylistTagWriter.EXT_X_MEDIA_SEQUENCE,
                 MediaPlaylistTagWriter.EXT_X_I_FRAMES_ONLY,
+                MasterPlaylistTagWriter.EXT_X_SESSION_KEY,
                 MasterPlaylistTagWriter.EXT_X_MEDIA,
                 MediaPlaylistTagWriter.EXT_X_ALLOW_CACHE,
                 MasterPlaylistTagWriter.EXT_X_STREAM_INF,

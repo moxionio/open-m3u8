@@ -5,13 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.iheartradio.m3u8.data.IFrameStreamInfo;
-import com.iheartradio.m3u8.data.IStreamInfo;
-import com.iheartradio.m3u8.data.MasterPlaylist;
-import com.iheartradio.m3u8.data.MediaData;
-import com.iheartradio.m3u8.data.Playlist;
-import com.iheartradio.m3u8.data.PlaylistData;
-import com.iheartradio.m3u8.data.StreamInfo;
+import com.iheartradio.m3u8.data.*;
 
 abstract class MasterPlaylistTagWriter extends ExtTagWriter {
     
@@ -369,4 +363,103 @@ abstract class MasterPlaylistTagWriter extends ExtTagWriter {
             }
         }
     };
+
+
+    static final IExtTagWriter EXT_X_SESSION_KEY = new MasterPlaylistTagWriter() {
+        private final Map<String, AttributeWriter<EncryptionData>> HANDLERS = new HashMap<String, AttributeWriter<EncryptionData>>();
+
+
+        {
+            HANDLERS.put(Constants.METHOD, new AttributeWriter<EncryptionData>() {
+                @Override
+                public boolean containsAttribute(EncryptionData attributes) {
+                    return true;
+                }
+
+                @Override
+                public String write(EncryptionData encryptionData) {
+                    return encryptionData.getMethod().getValue();
+                }
+            });
+
+            HANDLERS.put(Constants.URI, new AttributeWriter<EncryptionData>() {
+                @Override
+                public boolean containsAttribute(EncryptionData attributes) {
+                    return true;
+                }
+
+                @Override
+                public String write(EncryptionData encryptionData) throws ParseException {
+                    return WriteUtil.writeQuotedString(encryptionData.getUri(), getTag());
+                }
+            });
+
+            HANDLERS.put(Constants.IV, new AttributeWriter<EncryptionData>() {
+                @Override
+                public boolean containsAttribute(EncryptionData attribute) {
+                    return attribute.hasInitializationVector();
+                }
+
+                @Override
+                public String write(EncryptionData encryptionData) {
+                    return WriteUtil.writeHexadecimal(encryptionData.getInitializationVector());
+                }
+            });
+
+            HANDLERS.put(Constants.KEY_ID, new AttributeWriter<EncryptionData>() {
+                @Override
+                public boolean containsAttribute(EncryptionData attribute) {
+                    return attribute.hasKeyId();
+                }
+
+                @Override
+                public String write(EncryptionData encryptionData) {
+                    return WriteUtil.writeHexadecimal(encryptionData.getKeyId());
+                }
+            });
+
+            HANDLERS.put(Constants.KEY_FORMAT, new AttributeWriter<EncryptionData>() {
+                @Override
+                public boolean containsAttribute(EncryptionData attributes) {
+                    return true;
+                }
+
+                @Override
+                public String write(EncryptionData encryptionData) throws ParseException {
+                    //TODO check for version 5
+                    return WriteUtil.writeQuotedString(encryptionData.getKeyFormat(), getTag(), true);
+                }
+            });
+
+            HANDLERS.put(Constants.KEY_FORMAT_VERSIONS, new AttributeWriter<EncryptionData>() {
+                @Override
+                public boolean containsAttribute(EncryptionData attributes) {
+                    return true;
+                }
+
+                @Override
+                public String write(EncryptionData encryptionData) throws ParseException {
+                    //TODO check for version 5
+                    return WriteUtil.writeQuotedString(WriteUtil.join(encryptionData.getKeyFormatVersions(), Constants.LIST_SEPARATOR), getTag(), true);
+                }
+            });
+        }
+
+        @Override
+        public String getTag() {
+            return Constants.EXT_X_SESSION_KEY_TAG;
+        }
+
+        @Override
+        boolean hasData() {
+            return true;
+        }
+
+        @Override
+        public void doWrite(TagWriter tagWriter, Playlist playlist, MasterPlaylist masterPlaylist) throws IOException, ParseException {
+            if (masterPlaylist.getEncryptionData() != null)
+                writeAttributes(tagWriter, masterPlaylist.getEncryptionData(), HANDLERS);
+        }
+    };
+
 }

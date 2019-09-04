@@ -205,4 +205,16 @@ public class PlaylistParserWriterTest {
                 "http://media.example.com/first.ts\n" +
                 "#EXT-X-ENDLIST\n", writePlaylist(playlist));
     }
+
+
+
+
+    @Test
+    public void masterPlaylistWithEncryption() throws IOException, ParseException, PlaylistException {
+        Playlist playlist = readPlaylist("masterPlaylistWithSessionKey.m3u8");
+
+        String sPlaylist = writePlaylist(playlist);
+
+        System.out.println(sPlaylist);
+    }
 }

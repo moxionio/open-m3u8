@@ -55,7 +55,10 @@ final class Constants {
     public static final String AUDIO = "AUDIO";
     public static final String SUBTITLES = "SUBTITLES";
     public static final String CLOSED_CAPTIONS = "CLOSED-CAPTIONS";
-    
+
+
+    public static final String EXT_X_SESSION_KEY_TAG = "EXT-X-SESSION-KEY";
+
 
     // media playlist tags
     
