@@ -13,6 +13,8 @@ public class IFrameStreamInfo implements IStreamInfo {
     private final float mFrameRate;
     private final String mVideo;
     private final String mUri;
+    private final String mVideoRange;
+
 
     private IFrameStreamInfo(
             int bandwidth,
@@ -21,7 +23,8 @@ public class IFrameStreamInfo implements IStreamInfo {
             Resolution resolution,
             float frameRate,
             String video,
-            String uri) {
+            String uri,
+            String videoRange) {
         mBandwidth = bandwidth;
         mAverageBandwidth = averageBandwidth;
         mCodecs = codecs;
@@ -29,6 +32,7 @@ public class IFrameStreamInfo implements IStreamInfo {
         mFrameRate = frameRate;
         mVideo = video;
         mUri = uri;
+        mVideoRange = videoRange;
     }
 
     @Override
@@ -86,6 +90,16 @@ public class IFrameStreamInfo implements IStreamInfo {
         return mVideo;
     }
 
+    @Override
+    public boolean hasVideoRange() {
+        return mVideoRange != null;
+    }
+
+    @Override
+    public String getVideoRange() {
+        return mVideoRange;
+    }
+
     public String getUri() {
         return mUri;
     }
@@ -98,7 +112,8 @@ public class IFrameStreamInfo implements IStreamInfo {
                 mResolution,
                 mFrameRate,
                 mVideo,
-                mUri);
+                mUri,
+                mVideoRange);
     }
 
     @Override
@@ -110,7 +125,8 @@ public class IFrameStreamInfo implements IStreamInfo {
                 mResolution,
                 mFrameRate,
                 mVideo,
-                mUri);
+                mUri,
+                mVideoRange);
     }
 
     @Override
@@ -127,7 +143,8 @@ public class IFrameStreamInfo implements IStreamInfo {
                Objects.equals(mResolution, other.mResolution) &&
                Objects.equals(mFrameRate, other.mFrameRate) &&
                Objects.equals(mVideo, other.mVideo) &&
-               Objects.equals(mUri, other.mUri);
+               Objects.equals(mUri, other.mUri) &&
+               Objects.equals(mVideoRange, other.mVideoRange);
     }
 
     public static class Builder implements StreamInfoBuilder {
@@ -138,6 +155,7 @@ public class IFrameStreamInfo implements IStreamInfo {
         private float mFrameRate = Float.NaN;
         private String mVideo;
         private String mUri;
+        private String mVideoRange;
 
         public Builder() {
         }
@@ -149,7 +167,8 @@ public class IFrameStreamInfo implements IStreamInfo {
                 Resolution resolution,
                 float frameRate,
                 String video,
-                String uri) {
+                String uri,
+                String videoRange) {
             mBandwidth = bandwidth;
             mAverageBandwidth = averageBandwidth;
             mCodecs = codecs;
@@ -157,6 +176,7 @@ public class IFrameStreamInfo implements IStreamInfo {
             mFrameRate = frameRate;
             mVideo = video;
             mUri = uri;
+            mVideoRange = videoRange;
         }
 
         @Override
@@ -195,6 +215,12 @@ public class IFrameStreamInfo implements IStreamInfo {
             return this;
         }
 
+        @Override
+        public Builder withVideoRange(String videoRange) {
+            mVideoRange = videoRange;
+            return this;
+        }
+
         public Builder withUri(String uri) {
             mUri = uri;
             return this;
@@ -208,7 +234,8 @@ public class IFrameStreamInfo implements IStreamInfo {
                     mResolution,
                     mFrameRate,
                     mVideo,
-                    mUri);
+                    mUri,
+                    mVideoRange);
         }
     }
 }
