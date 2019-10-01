@@ -1,8 +1,13 @@
 package com.iheartradio.m3u8;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.List;
+import java.util.Locale;
 
 import com.iheartradio.m3u8.data.Resolution;
 
@@ -84,6 +89,11 @@ public class WriteUtil {
             }
         }
         return sb.toString();
+    }
+
+    private static final DecimalFormat df = new DecimalFormat("#.####");
+    public static String writeFloat(float f) {
+        return df.format(f);
     }
 
 }
