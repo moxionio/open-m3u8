@@ -13,7 +13,7 @@ public class IFrameStreamInfo implements IStreamInfo {
     private final float mFrameRate;
     private final String mVideo;
     private final String mUri;
-    private final String mVideoRange;
+    private final VideoRangeType mVideoRange;
 
 
     private IFrameStreamInfo(
@@ -24,7 +24,7 @@ public class IFrameStreamInfo implements IStreamInfo {
             float frameRate,
             String video,
             String uri,
-            String videoRange) {
+            VideoRangeType videoRange) {
         mBandwidth = bandwidth;
         mAverageBandwidth = averageBandwidth;
         mCodecs = codecs;
@@ -96,7 +96,7 @@ public class IFrameStreamInfo implements IStreamInfo {
     }
 
     @Override
-    public String getVideoRange() {
+    public VideoRangeType getVideoRange() {
         return mVideoRange;
     }
 
@@ -155,7 +155,7 @@ public class IFrameStreamInfo implements IStreamInfo {
         private float mFrameRate = Float.NaN;
         private String mVideo;
         private String mUri;
-        private String mVideoRange;
+        private VideoRangeType mVideoRange;
 
         public Builder() {
         }
@@ -168,7 +168,7 @@ public class IFrameStreamInfo implements IStreamInfo {
                 float frameRate,
                 String video,
                 String uri,
-                String videoRange) {
+                VideoRangeType videoRange) {
             mBandwidth = bandwidth;
             mAverageBandwidth = averageBandwidth;
             mCodecs = codecs;
@@ -216,7 +216,7 @@ public class IFrameStreamInfo implements IStreamInfo {
         }
 
         @Override
-        public Builder withVideoRange(String videoRange) {
+        public Builder withVideoRange(VideoRangeType videoRange) {
             mVideoRange = videoRange;
             return this;
         }

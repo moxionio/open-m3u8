@@ -266,7 +266,7 @@ abstract class MasterPlaylistTagWriter extends ExtTagWriter {
 
                 @Override
                 public String write(T streamInfo) throws ParseException {
-                    return WriteUtil.writeQuotedString(streamInfo.getVideoRange(), getTag());
+                    return streamInfo.getVideoRange().getValue();
                 }
             });
 

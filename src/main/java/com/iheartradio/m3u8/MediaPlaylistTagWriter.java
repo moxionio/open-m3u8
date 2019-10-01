@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import static com.iheartradio.m3u8.WriteUtil.writeFloat;
+
 abstract class MediaPlaylistTagWriter extends ExtTagWriter {
     
     @Override
@@ -91,7 +93,7 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
                 
                 @Override
                 public String write(StartData attributes) throws ParseException {
-                    return Float.toString(attributes.getTimeOffset());
+                    return writeFloat(attributes.getTimeOffset());
                 }
             });
             
@@ -237,10 +239,10 @@ abstract class MediaPlaylistTagWriter extends ExtTagWriter {
         if (playlist.getCompatibilityVersion() < 3) {
             builder.append(Integer.toString((int) trackData.getTrackInfo().duration));
         } else {
-            builder.append(Float.toString(trackData.getTrackInfo().duration));
+            builder.append(writeFloat(trackData.getTrackInfo().duration));
         }
 
-	 builder.append(Constants.COMMA);
+	    builder.append(Constants.COMMA);
         if (trackData.getTrackInfo().title != null) {
             builder.append(trackData.getTrackInfo().title);
         }

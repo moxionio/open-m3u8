@@ -15,7 +15,7 @@ public class StreamInfo implements IStreamInfo {
     private final String mVideo;
     private final String mSubtitles;
     private final String mClosedCaptions;
-    private final String mVideoRange;
+    private final VideoRangeType mVideoRange;
 
     private StreamInfo(
             int bandwidth,
@@ -27,7 +27,7 @@ public class StreamInfo implements IStreamInfo {
             String video,
             String subtitles,
             String closedCaptions,
-            String videoRange) {
+            VideoRangeType videoRange) {
         mBandwidth = bandwidth;
         mAverageBandwidth = averageBandwidth;
         mCodecs = codecs;
@@ -109,7 +109,7 @@ public class StreamInfo implements IStreamInfo {
     }
 
     @Override
-    public String getVideoRange() {
+    public VideoRangeType getVideoRange() {
         return mVideoRange;
     }
 
@@ -188,7 +188,7 @@ public class StreamInfo implements IStreamInfo {
         private String mVideo;
         private String mSubtitles;
         private String mClosedCaptions;
-        private String mVideoRange;
+        private VideoRangeType mVideoRange;
 
         public Builder() {
         }
@@ -203,7 +203,7 @@ public class StreamInfo implements IStreamInfo {
                 String video,
                 String subtitles,
                 String closedCaptions,
-                String mVideoRange) {
+                VideoRangeType videoRange) {
             mBandwidth = bandwidth;
             mAverageBandwidth = averageBandwidth;
             mCodecs = codecs;
@@ -213,7 +213,7 @@ public class StreamInfo implements IStreamInfo {
             mVideo = video;
             mSubtitles = subtitles;
             mClosedCaptions = closedCaptions;
-            mVideoRange = mVideoRange;
+            mVideoRange = videoRange;
         }
 
         @Override
@@ -258,7 +258,7 @@ public class StreamInfo implements IStreamInfo {
         }
 
         @Override
-        public Builder withVideoRange(String videoRange) {
+        public Builder withVideoRange(VideoRangeType videoRange) {
             mVideoRange = videoRange;
             return this;
         }
