@@ -1,6 +1,7 @@
 package com.iheartradio.m3u8;
 
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -194,7 +195,7 @@ abstract class MasterPlaylistTagWriter extends ExtTagWriter {
                 
                 @Override
                 public String write(T streamInfo) {
-                    return Integer.toString(streamInfo.getBandwidth());
+                    return streamInfo.getBandwidth().toString();
                 }
             });
 
@@ -206,7 +207,7 @@ abstract class MasterPlaylistTagWriter extends ExtTagWriter {
                 
                 @Override
                 public String write(T streamInfo)  {
-                    return Integer.toString(streamInfo.getAverageBandwidth());
+                    return streamInfo.getAverageBandwidth().toString();
                 }
             });
 

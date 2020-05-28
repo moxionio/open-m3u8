@@ -394,14 +394,14 @@ class MasterPlaylistLineParser implements LineParser {
         handlers.put(Constants.BANDWIDTH, new AttributeParser<T>() {
             @Override
             public void parse(Attribute attribute, T builder, ParseState state) throws ParseException {
-                builder.withBandwidth(ParseUtil.parseInt(attribute.value, tag));
+                builder.withBandwidth(ParseUtil.parseBigInteger(attribute.value, tag));
             }
         });
 
         handlers.put(Constants.AVERAGE_BANDWIDTH, new AttributeParser<T>() {
             @Override
             public void parse(Attribute attribute, T builder, ParseState state) throws ParseException {
-                builder.withAverageBandwidth(ParseUtil.parseInt(attribute.value, tag));
+                builder.withAverageBandwidth(ParseUtil.parseBigInteger(attribute.value, tag));
             }
         });
 

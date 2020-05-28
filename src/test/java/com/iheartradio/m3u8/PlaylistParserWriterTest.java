@@ -7,6 +7,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -88,25 +89,25 @@ public class PlaylistParserWriterTest {
         PlaylistData lowXStreamInf = playlistDatas.get(0);
         assertNotNull(lowXStreamInf);
         assertNotNull(lowXStreamInf.getStreamInfo());
-        assertEquals(1280000, lowXStreamInf.getStreamInfo().getBandwidth());
+        assertEquals(BigInteger.valueOf(1280000), lowXStreamInf.getStreamInfo().getBandwidth());
         assertEquals("low/audio-video.m3u8", lowXStreamInf.getUri());
 
         PlaylistData midXStreamInf = playlistDatas.get(1);
         assertNotNull(midXStreamInf);
         assertNotNull(midXStreamInf.getStreamInfo());
-        assertEquals(2560000, midXStreamInf.getStreamInfo().getBandwidth());
+        assertEquals(BigInteger.valueOf(2560000), midXStreamInf.getStreamInfo().getBandwidth());
         assertEquals("mid/audio-video.m3u8", midXStreamInf.getUri());
 
         PlaylistData hiXStreamInf = playlistDatas.get(2);
         assertNotNull(hiXStreamInf);
         assertNotNull(hiXStreamInf.getStreamInfo());
-        assertEquals(7680000, hiXStreamInf.getStreamInfo().getBandwidth());
+        assertEquals(BigInteger.valueOf(7680000), hiXStreamInf.getStreamInfo().getBandwidth());
         assertEquals("hi/audio-video.m3u8", hiXStreamInf.getUri());
 
         PlaylistData audioXStreamInf = playlistDatas.get(3);
         assertNotNull(audioXStreamInf);
         assertNotNull(audioXStreamInf.getStreamInfo());
-        assertEquals(65000, audioXStreamInf.getStreamInfo().getBandwidth());
+        assertEquals(BigInteger.valueOf(65000), audioXStreamInf.getStreamInfo().getBandwidth());
         assertNotNull(audioXStreamInf.getStreamInfo().getCodecs());
         assertEquals(1, audioXStreamInf.getStreamInfo().getCodecs().size());
         assertEquals("mp4a.40.5", audioXStreamInf.getStreamInfo().getCodecs().get(0));
@@ -114,17 +115,18 @@ public class PlaylistParserWriterTest {
 
         IFrameStreamInfo lowXIFrameStreamInf = iFrameInfo.get(0);
         assertNotNull(lowXIFrameStreamInf);
-        assertEquals(86000, lowXIFrameStreamInf.getBandwidth());
+        assertEquals(BigInteger.valueOf(86000), lowXIFrameStreamInf.getBandwidth());
         assertEquals("low/iframe.m3u8", lowXIFrameStreamInf.getUri());
 
         IFrameStreamInfo midXIFrameStreamInf = iFrameInfo.get(1);
         assertNotNull(midXIFrameStreamInf);
-        assertEquals(150000, midXIFrameStreamInf.getBandwidth());
+        assertEquals(BigInteger.valueOf(150000), midXIFrameStreamInf.getBandwidth());
         assertEquals("mid/iframe.m3u8", midXIFrameStreamInf.getUri());
 
         IFrameStreamInfo hiXIFrameStreamInf = iFrameInfo.get(2);
         assertNotNull(hiXIFrameStreamInf);
-        assertEquals(550000, hiXIFrameStreamInf.getBandwidth());
+        assertEquals(BigInteger.valueOf(550000), hiXIFrameStreamInf.getBandwidth());
+        assertEquals(new BigInteger("18446744073709500000"), hiXIFrameStreamInf.getAverageBandwidth());
         assertEquals("hi/iframe.m3u8", hiXIFrameStreamInf.getUri());
         
         String writtenPlaylist = writePlaylist(playlist);
@@ -141,7 +143,7 @@ public class PlaylistParserWriterTest {
                 "audio-only.m3u8\n" +
                 "#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=86000,URI=\"low/iframe.m3u8\"\n" +
                 "#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=150000,URI=\"mid/iframe.m3u8\"\n" +
-                "#EXT-X-I-FRAME-STREAM-INF:BANDWIDTH=550000,URI=\"hi/iframe.m3u8\"\n",
+                "#EXT-X-I-FRAME-STREAM-INF:AVERAGE-BANDWIDTH=18446744073709500000,BANDWIDTH=550000,URI=\"hi/iframe.m3u8\"\n",
                 writtenPlaylist);
     }
 
@@ -224,6 +226,7 @@ public class PlaylistParserWriterTest {
         assertEquals(
                 "#EXTM3U\n" +
                 "#EXT-X-VERSION:4\n" +
+                "#EXT-X-INDEPENDENT-SEGMENTS\n" +
                 "#EXT-X-TARGETDURATION:10\n" +
                 "#EXT-X-MEDIA-SEQUENCE:0\n"+
                 "#EXT-X-BYTERANGE:0@10\n" +

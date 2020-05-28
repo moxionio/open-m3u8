@@ -1,13 +1,14 @@
 package com.iheartradio.m3u8.data;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public interface IStreamInfo {
-    public int getBandwidth();
+    public BigInteger getBandwidth();
 
     boolean hasAverageBandwidth();
 
-    int getAverageBandwidth();
+    BigInteger getAverageBandwidth();
 
     boolean hasCodecs();
 

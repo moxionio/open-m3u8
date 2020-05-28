@@ -4,6 +4,7 @@ import com.iheartradio.m3u8.data.*;
 
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,8 +53,8 @@ public class MasterPlaylistLineParserTest extends LineParserStateTestCase {
     public void testEXT_X_STREAM_INF() throws Exception {
         final IExtTagParser handler = MasterPlaylistLineParser.EXT_X_STREAM_INF;
         final String tag = Constants.EXT_X_STREAM_INF_TAG;
-        final int bandwidth = 10000;
-        final int averageBandwidth = 5000;
+        final long bandwidth = 1844674407370955161L;
+        final long averageBandwidth = 5000;
         final List<String> codecs = Arrays.asList("h.263", "h.264");
         final Resolution resolution = new Resolution(800, 600);
         final String audio = "foo";
@@ -62,8 +63,8 @@ public class MasterPlaylistLineParserTest extends LineParserStateTestCase {
         final String closedCaptions = "captions";
 
         final StreamInfo expectedStreamInfo = new StreamInfo.Builder()
-                .withBandwidth(bandwidth)
-                .withAverageBandwidth(averageBandwidth)
+                .withBandwidth(BigInteger.valueOf(bandwidth))
+                .withAverageBandwidth(BigInteger.valueOf(averageBandwidth))
                 .withCodecs(codecs)
                 .withResolution(resolution)
                 .withAudio(audio)

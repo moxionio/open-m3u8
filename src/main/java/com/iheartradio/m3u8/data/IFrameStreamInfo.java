@@ -1,13 +1,14 @@
 package com.iheartradio.m3u8.data;
 
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Objects;
 
 public class IFrameStreamInfo implements IStreamInfo {
-    public static final int NO_BANDWIDTH = -1;
+    public static final BigInteger NO_BANDWIDTH = BigInteger.valueOf(-1);
 
-    private final int mBandwidth;
-    private final int mAverageBandwidth;
+    private final BigInteger mBandwidth;
+    private final BigInteger mAverageBandwidth;
     private final List<String> mCodecs;
     private final Resolution mResolution;
     private final float mFrameRate;
@@ -17,8 +18,8 @@ public class IFrameStreamInfo implements IStreamInfo {
 
 
     private IFrameStreamInfo(
-            int bandwidth,
-            int averageBandwidth,
+            BigInteger bandwidth,
+            BigInteger averageBandwidth,
             List<String> codecs,
             Resolution resolution,
             float frameRate,
@@ -36,17 +37,17 @@ public class IFrameStreamInfo implements IStreamInfo {
     }
 
     @Override
-    public int getBandwidth() {
+    public BigInteger getBandwidth() {
         return mBandwidth;
     }
 
     @Override
     public boolean hasAverageBandwidth() {
-        return mAverageBandwidth != NO_BANDWIDTH;
+        return !mAverageBandwidth.equals(NO_BANDWIDTH);
     }
 
     @Override
-    public int getAverageBandwidth() {
+    public BigInteger getAverageBandwidth() {
         return mAverageBandwidth;
     }
 
@@ -137,8 +138,8 @@ public class IFrameStreamInfo implements IStreamInfo {
 
         IFrameStreamInfo other = (IFrameStreamInfo) o;
 
-        return mBandwidth == other.mBandwidth &&
-               mAverageBandwidth == other.mAverageBandwidth &&
+        return mBandwidth.equals(other.mBandwidth) &&
+               mAverageBandwidth.equals(other.mAverageBandwidth) &&
                Objects.equals(mCodecs, other.mCodecs) &&
                Objects.equals(mResolution, other.mResolution) &&
                Objects.equals(mFrameRate, other.mFrameRate) &&
@@ -148,8 +149,8 @@ public class IFrameStreamInfo implements IStreamInfo {
     }
 
     public static class Builder implements StreamInfoBuilder {
-        private int mBandwidth = NO_BANDWIDTH;
-        private int mAverageBandwidth = NO_BANDWIDTH;
+        private BigInteger mBandwidth = NO_BANDWIDTH;
+        private BigInteger mAverageBandwidth = NO_BANDWIDTH;
         private List<String> mCodecs;
         private Resolution mResolution;
         private float mFrameRate = Float.NaN;
@@ -161,8 +162,8 @@ public class IFrameStreamInfo implements IStreamInfo {
         }
 
         private Builder(
-                int bandwidth,
-                int averageBandwidth,
+                BigInteger bandwidth,
+                BigInteger averageBandwidth,
                 List<String> codecs,
                 Resolution resolution,
                 float frameRate,
@@ -180,13 +181,13 @@ public class IFrameStreamInfo implements IStreamInfo {
         }
 
         @Override
-        public Builder withBandwidth(int bandwidth) {
+        public Builder withBandwidth(BigInteger bandwidth) {
             mBandwidth = bandwidth;
             return this;
         }
 
         @Override
-        public Builder withAverageBandwidth(int averageBandwidth) {
+        public Builder withAverageBandwidth(BigInteger averageBandwidth) {
             mAverageBandwidth = averageBandwidth;
             return this;
         }
