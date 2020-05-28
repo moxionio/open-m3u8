@@ -134,11 +134,11 @@ public class PlaylistValidation {
 
 
         if (playlistData.hasStreamInfo()) {
-            if (playlistData.getStreamInfo().getBandwidth() == StreamInfo.NO_BANDWIDTH) {
+            if (playlistData.getStreamInfo().getBandwidth().equals(StreamInfo.NO_BANDWIDTH)) {
                 errors.add(PlaylistError.STREAM_INFO_WITH_NO_BANDWIDTH);
             }
 
-            if (playlistData.getStreamInfo().getAverageBandwidth() < StreamInfo.NO_BANDWIDTH) {
+            if (playlistData.getStreamInfo().getAverageBandwidth().compareTo(StreamInfo.NO_BANDWIDTH) < 0 ) {
                 errors.add(PlaylistError.STREAM_INFO_WITH_INVALID_AVERAGE_BANDWIDTH);
             }
         }
@@ -149,11 +149,11 @@ public class PlaylistValidation {
             errors.add(PlaylistError.I_FRAME_STREAM_WITHOUT_URI);
         }
 
-        if (streamInfo.getBandwidth() == StreamInfo.NO_BANDWIDTH) {
+        if (streamInfo.getBandwidth().equals(StreamInfo.NO_BANDWIDTH)) {
             errors.add(PlaylistError.I_FRAME_STREAM_WITH_NO_BANDWIDTH);
         }
 
-        if (streamInfo.getAverageBandwidth() < StreamInfo.NO_BANDWIDTH) {
+        if (streamInfo.getAverageBandwidth().compareTo(StreamInfo.NO_BANDWIDTH) < 0 ) {
             errors.add(PlaylistError.I_FRAME_STREAM_WITH_INVALID_AVERAGE_BANDWIDTH);
         }
     }

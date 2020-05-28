@@ -1,11 +1,12 @@
 package com.iheartradio.m3u8.data;
 
+import java.math.BigInteger;
 import java.util.List;
 
 public interface StreamInfoBuilder {
-    public StreamInfoBuilder withBandwidth(int bandwidth);
+    public StreamInfoBuilder withBandwidth(BigInteger bandwidth);
 
-    public StreamInfoBuilder withAverageBandwidth(int averageBandwidth);
+    public StreamInfoBuilder withAverageBandwidth(BigInteger averageBandwidth);
 
     public StreamInfoBuilder withCodecs(List<String> codecs);
 

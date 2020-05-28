@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -31,7 +32,7 @@ public class ExtendedM3uParserTest {
                 .build());
 
         final StreamInfo expectedStreamInfo = new StreamInfo.Builder()
-                .withBandwidth(500)
+                .withBandwidth(BigInteger.valueOf(500))
                 .build();
 
         final String validData =

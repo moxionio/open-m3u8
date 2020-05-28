@@ -4,6 +4,7 @@ import com.iheartradio.m3u8.data.ByteRange;
 import com.iheartradio.m3u8.data.Resolution;
 
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.net.URLDecoder;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -15,6 +16,14 @@ final class ParseUtil {
             return Integer.parseInt(string);
         } catch (NumberFormatException exception) {
             throw ParseException.create(ParseExceptionType.NOT_JAVA_INTEGER, tag, string);
+        }
+    }
+
+    public static BigInteger parseBigInteger(String string, String tag) throws ParseException {
+        try {
+            return new BigInteger(string);
+        } catch (NumberFormatException exception) {
+            throw ParseException.create(ParseExceptionType.NOT_JAVA_BIGINTEGER, tag, string);
         }
     }
 
