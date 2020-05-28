@@ -53,8 +53,8 @@ public class MasterPlaylistLineParserTest extends LineParserStateTestCase {
     public void testEXT_X_STREAM_INF() throws Exception {
         final IExtTagParser handler = MasterPlaylistLineParser.EXT_X_STREAM_INF;
         final String tag = Constants.EXT_X_STREAM_INF_TAG;
-        final long bandwidth = 1844674407370955161L;
-        final long averageBandwidth = 5000;
+        final BigInteger bandwidth = new BigInteger("1844674407370955161");
+        final BigInteger averageBandwidth = new BigInteger("5000");
         final List<String> codecs = Arrays.asList("h.263", "h.264");
         final Resolution resolution = new Resolution(800, 600);
         final String audio = "foo";
@@ -63,8 +63,8 @@ public class MasterPlaylistLineParserTest extends LineParserStateTestCase {
         final String closedCaptions = "captions";
 
         final StreamInfo expectedStreamInfo = new StreamInfo.Builder()
-                .withBandwidth(BigInteger.valueOf(bandwidth))
-                .withAverageBandwidth(BigInteger.valueOf(averageBandwidth))
+                .withBandwidth(bandwidth)
+                .withAverageBandwidth(averageBandwidth)
                 .withCodecs(codecs)
                 .withResolution(resolution)
                 .withAudio(audio)
